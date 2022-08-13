@@ -37,3 +37,4 @@ tsconfig.build.json
 nest-cli.json
 test/app.e2e-spec.ts
 test/jest-e2e.json
+package-lock.json
