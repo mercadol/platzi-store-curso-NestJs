@@ -3,7 +3,10 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -31,8 +34,9 @@ export class ProductsController {
   }
 
   @Get(':id')
-  getProduct(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @HttpCode(HttpStatus.ACCEPTED)
+  getProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.findOne(id);
   }
 
   @Post()
@@ -41,11 +45,12 @@ export class ProductsController {
   }
 
   @Put(':id')
-  updateProduct(@Param('id') id: number, @Body() payload: any) {
-    return this.productsService.update(+id, payload);
+  updateProduct(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+    return this.productsService.update(id, payload);
   }
+
   @Delete(':id')
-  deleteProduct(@Param('id') id: number) {
-    return this.productsService.remove(+id);
+  deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.remove(id);
   }
 }
