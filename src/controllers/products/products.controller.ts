@@ -42,10 +42,10 @@ export class ProductsController {
 
   @Put(':id')
   updateProduct(@Param('id') id: number, @Body() payload: any) {
-    return this.productsService.update(id, payload);
+    return this.productsService.update(+id, payload);
   }
   @Delete(':id')
   deleteProduct(@Param('id') id: number) {
-    return this.productsService.delete(id);
+    return this.productsService.remove(+id);
   }
 }
