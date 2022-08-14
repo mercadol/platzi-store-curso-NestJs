@@ -1,12 +1,26 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { CreateBrandDto, UpdateBrandDto } from 'src/dtos/brands.dtos';
+import { BrandsService } from 'src/services/brands/brands.service';
 
 @Controller('bandes')
 export class BandesController {
+  constructor(private brandsService: BrandsService) {}
+
   @Get()
-  getBrands(@Query('limit') limit = 100, @Query('offset') offset = 0) {
-    return {
-      message: `Brand limit => ${limit} offset => ${offset}`,
-    };
+  getBrands() {
+    return this.brandsService.findAll();
   }
 
   @Get('filter')
@@ -17,17 +31,26 @@ export class BandesController {
   }
 
   @Get(':id')
-  getBrand(@Param('id') id: string) {
-    return {
-      message: `Brand ${id}`,
-    };
+  @HttpCode(HttpStatus.ACCEPTED)
+  getBrand(@Param('id', ParseIntPipe) id: number) {
+    return this.brandsService.findOne(id);
   }
 
   @Post()
-  createBrand(@Body() payload: any) {
-    return {
-      message: 'accion de crear',
-      payload: payload,
-    };
+  createBrand(@Body() payload: CreateBrandDto) {
+    return this.brandsService.create(payload);
+  }
+
+  @Put(':id')
+  updateBrand(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateBrandDto,
+  ) {
+    return this.brandsService.update(id, payload);
+  }
+
+  @Delete(':id')
+  deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.brandsService.remove(id);
   }
 }

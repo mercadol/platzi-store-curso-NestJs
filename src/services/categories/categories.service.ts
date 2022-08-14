@@ -50,5 +50,6 @@ export class CategoriesService {
       throw new NotFoundException(`category id# ${id} is not fount`);
     }
     this.categories.splice(index, 1);
+    return true;
   }
 }

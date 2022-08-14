@@ -15,4 +15,4 @@ export class CreateCustomerDto {
   readonly email: string;
 }
 
-export class UpdateCustomerDto extends PartialType(CreateBrandDto) {}
+export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {}
